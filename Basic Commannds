@@ -1,3 +1,8 @@
+| Directory           | Command to Inspect | Description                                                             |
+| ------------------- | ------------------ | ----------------------------------------------------------------------- |
+| `/bin → /usr/bin`   | `ls -l /bin`       | Essential user commands (`ls`, `cp`, `mv`, `cat`) linked to `/usr/bin`. |
+| `/sbin → /usr/sbin` | `ls -l /sbin`      | System admin commands (`iptables`, `shutdown`) linked to `/usr/sbin`.   |
+| `/lib → /usr/lib`   | `ls -l /lib`       | Shared libraries needed by binaries, linked to `/usr/lib`.              |
 # Full Linux Notes (Beginner to Advanced - DevOps Focus)
 
 ---
