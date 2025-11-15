@@ -1,0 +1,385 @@
+# Full Linux Notes (Beginner to Advanced - DevOps Focus)
+
+---
+
+## 🟦 1. Introduction to Linux
+
+### **What is Linux?**
+
+Linux is an open-source operating system used to run servers, cloud platforms, DevOps tools, and production systems.
+
+### **Why Linux for DevOps?**
+
+* Most servers run Linux
+* Kubernetes, Docker, Jenkins, Terraform all run on Linux
+* SSH, networking tools, logs—all Linux based
+* Stability & performance
+
+### **Where Linux is Used:**
+
+* AWS EC2 instances
+* Kubernetes nodes
+* Docker containers
+* CI/CD runners
+* Production servers
+
+---
+
+## 🟦 2. Linux File System Structure
+
+| Path       | Description              |
+| ---------- | ------------------------ |
+| `/`        | Root directory           |
+| `/home`    | User directories         |
+| `/etc`     | Configuration files      |
+| `/var`     | Logs, cache, spool files |
+| `/var/log` | System logs              |
+| `/usr/bin` | User commands            |
+| `/bin`     | Binary executables       |
+| `/sbin`    | System binaries          |
+| `/tmp`     | Temporary files          |
+| `/opt`     | Optional packages        |
+| `/root`    | Root user home           |
+
+---
+
+## 🟦 3. Basic Commands
+
+### Navigation
+
+* `pwd` – Show working directory
+* `ls -l` – List files with details
+* `cd /path` – Change directory
+* `cd ..` – Go back one directory
+
+### File Operations
+
+* `touch file.txt`
+* `cp file1 file2`
+* `mv file1 file2`
+* `rm file.txt`
+* `mkdir folder`
+* `cat file.txt`
+
+---
+
+## 🟦 4. Permissions & Ownership
+
+### Permission Structure
+
+```
+drwxr-xr--  1 user group 4096 file
+```
+
+### Meaning of Symbols
+
+* `d` = directory
+* `r` = read
+* `w` = write
+* `x` = execute
+
+### Changing Permissions
+
+* `chmod 755 file`
+* `chmod u+x script.sh`
+
+### Changing Owner
+
+* `chown user file`
+* `chown user:group file`
+
+---
+
+## 🟦 5. Users & Groups
+
+### User Commands
+
+* `whoami`
+* `id`
+* `sudo su` – switch to root
+* `useradd username`
+* `passwd username`
+
+### Group Commands
+
+* `groupadd devops`
+* `usermod -aG devops user`
+
+---
+
+## 🟦 6. File Search Commands
+
+### Find
+
+* `find / -name file.txt`
+* `find . -type f -size +20M`
+
+### Grep
+
+* `grep "error" file`
+* `grep -R "503" /var/log/`
+
+---
+
+## 🟦 7. System Monitoring
+
+### Processes
+
+* `ps aux`
+* `top`
+* `htop`
+* `kill PID`
+* `kill -9 PID`
+
+### Resource Usage
+
+* `free -m`
+* `df -h`
+* `du -sh *`
+
+---
+
+## 🟦 8. Networking Commands
+
+* `ip a` – Show IP address
+* `ping google.com` – Connectivity check
+* `curl http://url` – Hit URL
+* `ss -tulnp` – Check open ports
+* `hostname -I` – Show IP
+* `scp file user@server:/path` – Copy via SSH
+
+---
+
+## 🟦 9. Services (systemd)
+
+### Manage Services
+
+* `systemctl start nginx`
+* `systemctl stop nginx`
+* `systemctl restart nginx`
+* `systemctl enable nginx`
+* `systemctl status nginx`
+
+---
+
+## 🟦 10. Logs & Troubleshooting
+
+### Important Log Files
+
+| Path                | Description         |
+| ------------------- | ------------------- |
+| `/var/log/syslog`   | System logs         |
+| `/var/log/auth.log` | Authentication logs |
+| `/var/log/nginx/`   | Nginx logs          |
+| `/var/log/messages` | General system logs |
+
+### Log Commands
+
+* `tail -f /var/log/syslog`
+* `grep "error" /var/log/syslog`
+
+---
+
+## 🟦 11. Package Management (Ubuntu)
+
+* `sudo apt update`
+* `sudo apt upgrade`
+* `sudo apt install nginx`
+* `sudo apt remove nginx`
+
+---
+
+## 🟦 12. Shell Scripting Basics
+
+### Shebang
+
+```
+#!/bin/bash
+```
+
+### Variables
+
+```
+name="DevOps"
+echo $name
+```
+
+### Conditions
+
+```
+if [ $x -gt 10 ]; then
+  echo "Greater"
+fi
+```
+
+### Loops
+
+```
+for i in 1 2 3; do
+ echo $i
+done
+```
+
+### Functions
+
+```
+hello() {
+ echo "Hello"
+}
+hello
+```
+
+---
+
+## 🟦 13. Cron Jobs (Scheduling)
+
+### Edit cron
+
+```
+crontab -e
+```
+
+### Run script every minute
+
+```
+* * * * * /home/user/script.sh
+```
+
+---
+
+## 🟦 14. Disk, Storage & File Systems
+
+### Mounting
+
+* `mount /dev/sdb1 /mnt`
+
+### Checking file system
+
+* `fsck /dev/sda1`
+
+---
+
+## 🟦 15. SSH & Remote Access
+
+### Connect to server
+
+```
+ssh user@ip
+```
+
+### Copy file
+
+```
+scp file user@server:/path
+```
+
+---
+
+## 🟦 16. Archive & Compression
+
+* `tar -cvf archive.tar file`
+* `tar -xvf archive.tar`
+* `zip file.zip file`
+* `unzip file.zip`
+
+---
+
+## 🟦 17. Environment Variables
+
+### Temporary
+
+```
+export NAME=DEVOPS
+```
+
+### Permanent
+
+Add to `~/.bashrc` or `/etc/environment`.
+
+---
+
+## 🟦 18. Firewall Management (UFW)
+
+### Check Status
+
+```
+sudo ufw status
+```
+
+### Allow Port
+
+```
+sudo ufw allow 22
+sudo ufw allow 80
+```
+
+---
+
+## 🟦 19. Linux for DevOps – Most Used Commands
+
+| Category    | Top Commands           |
+| ----------- | ---------------------- |
+| Logs        | tail, grep, journalctl |
+| Networking  | ip, ss, curl, ping     |
+| Storage     | df, du, mount          |
+| Processes   | ps, top, systemctl     |
+| Scripting   | bash, sh, chmod +x     |
+| Monitoring  | free, uptime, vmstat   |
+| Permissions | chmod, chown           |
+
+---
+
+## 🟦 20. Real DevOps Scenarios
+
+### 🚀 Scenario 1: Server Down
+
+* `systemctl status service`
+* `journalctl -u service`
+* `df -h`
+* `top`
+
+### 🚀 Scenario 2: Deployment Failed
+
+* `tail -f logs`
+* `grep "error" logs`
+* `ps aux`
+
+### 🚀 Scenario 3: Network Issue
+
+* `ip a`
+* `ping`
+* `curl`
+
+---
+
+## 🟦 21. Linux Command Mini-Cheat Sheet
+
+* `ls` – list files
+* `cd` – change directory
+* `rm` – remove
+* `chmod` – change permissions
+* `chown` – change owner
+* `ps` – list processes
+* `top` – system monitor
+* `tail -f` – live logs
+* `systemctl` – manage services
+* `grep` – search text
+* `ssh` – connect remote
+
+---
+
+## 🟦 22. Summary
+
+This document contains **complete Linux notes for DevOps**, covering:
+✔ Basics
+✔ Intermediate
+✔ Advanced
+✔ Scripting
+✔ Logs
+✔ Services
+✔ Networking
+✔ Commands
+✔ Architecture
+✔ Real DevOps use cases
+
+You can use these notes in your **GitHub DevOps learning repository** to impress recruiters.
