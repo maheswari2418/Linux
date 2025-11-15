@@ -1,390 +1,466 @@
-| Directory           | Command to Inspect | Description                                                             |
-| ------------------- | ------------------ | ----------------------------------------------------------------------- |
-| `/bin → /usr/bin`   | `ls -l /bin`       | Essential user commands (`ls`, `cp`, `mv`, `cat`) linked to `/usr/bin`. |
-| `/sbin → /usr/sbin` | `ls -l /sbin`      | System admin commands (`iptables`, `shutdown`) linked to `/usr/sbin`.   |
-| `/lib → /usr/lib`   | `ls -l /lib`       | Shared libraries needed by binaries, linked to `/usr/lib`.              |
-# Full Linux Notes (Beginner to Advanced - DevOps Focus)
+# 🐧 Complete Linux Commands Reference Guide
+
+**From Beginner to Advanced | 80+ Essential Commands**
 
 ---
 
-## 🟦 1. Introduction to Linux
+## 📚 Table of Contents
 
-### **What is Linux?**
-
-Linux is an open-source operating system used to run servers, cloud platforms, DevOps tools, and production systems.
-
-### **Why Linux for DevOps?**
-
-* Most servers run Linux
-* Kubernetes, Docker, Jenkins, Terraform all run on Linux
-* SSH, networking tools, logs—all Linux based
-* Stability & performance
-
-### **Where Linux is Used:**
-
-* AWS EC2 instances
-* Kubernetes nodes
-* Docker containers
-* CI/CD runners
-* Production servers
+1. [Linux Basics](#1-linux-basics)
+2. [File & Directory Management](#2-file--directory-management)
+3. [User & Permission Management](#3-user--permission-management)
+4. [System Monitoring & Processes](#4-system-monitoring--processes)
+5. [Networking Commands](#5-networking-commands)
+6. [Disk, Storage & File Systems](#6-disk-storage--file-systems)
+7. [Package Management](#7-package-management)
+8. [Shell Scripting Essentials](#8-shell-scripting-essentials)
+9. [Advanced Linux Concepts](#9-advanced-linux-concepts)
 
 ---
 
-## 🟦 2. Linux File System Structure
+## 1. Linux Basics
 
-| Path       | Description              |
-| ---------- | ------------------------ |
-| `/`        | Root directory           |
-| `/home`    | User directories         |
-| `/etc`     | Configuration files      |
-| `/var`     | Logs, cache, spool files |
-| `/var/log` | System logs              |
-| `/usr/bin` | User commands            |
-| `/bin`     | Binary executables       |
-| `/sbin`    | System binaries          |
-| `/tmp`     | Temporary files          |
-| `/opt`     | Optional packages        |
-| `/root`    | Root user home           |
+Understanding the foundational commands that every Linux user should know.
 
----
+| Command | Description | Example Usage | Visual/Diagram Explanation |
+|---------|-------------|---------------|----------------------------|
+| `pwd` | Print Working Directory - shows current location | `pwd` | `[root] → [home] → [user] → [YOU ARE HERE]` |
+| `cd` | Change Directory - navigate filesystem | `cd /var/log`<br>`cd ..`<br>`cd ~` | `Current Dir → cd /path → New Dir` |
+| `ls` | List directory contents | `ls -la`<br>`ls -lh` | `📁 Dir1  📄 file.txt  📁 Dir2` |
+| `man` | Manual pages - command documentation | `man ls`<br>`man grep` | `man [command] → [DETAILED HELP PAGE]` |
+| `whoami` | Display current username | `whoami` | `System → [Current User: john]` |
+| `hostname` | Show or set system hostname | `hostname`<br>`hostname -I` | `Computer Identity: myserver.local` |
+| `uname` | Print system information | `uname -a`<br>`uname -r` | `Kernel → Linux 5.15.0 [x86_64]` |
+| `clear` | Clear terminal screen | `clear` or `Ctrl+L` | `[Cluttered Screen] → clear → [Clean Screen]` |
+| `history` | Show command history | `history`<br>`history | grep ssh` | `1: ls → 2: cd → 3: pwd → ... → 100: history` |
+| `exit` | Exit shell or terminal | `exit` | `[Terminal Session] → exit → [Closed]` |
 
-## 🟦 3. Basic Commands
+### 💡 Quick Tips
+- Use `Tab` key for auto-completion
+- `Ctrl+C` stops running commands
+- `Ctrl+Z` suspends processes
+- `!!` repeats last command
+- `!$` uses last argument from previous command
 
-### Navigation
-
-* `pwd` – Show working directory
-* `ls -l` – List files with details
-* `cd /path` – Change directory
-* `cd ..` – Go back one directory
-
-### File Operations
-
-* `touch file.txt`
-* `cp file1 file2`
-* `mv file1 file2`
-* `rm file.txt`
-* `mkdir folder`
-* `cat file.txt`
+### ⚠️ Important Notes
+- Linux is case-sensitive: `File.txt` ≠ `file.txt`
+- Root directory is `/`, not `\` like Windows
+- Hidden files start with `.` (dot)
 
 ---
 
-## 🟦 4. Permissions & Ownership
+## 2. File & Directory Management
 
-### Permission Structure
+Master file operations, navigation, and manipulation.
+
+| Command | Description | Example Usage | Visual/Diagram Explanation |
+|---------|-------------|---------------|----------------------------|
+| `touch` | Create empty file or update timestamp | `touch newfile.txt`<br>`touch file{1..5}.txt` | `[Empty] → touch → [📄 file created]` |
+| `mkdir` | Make directory | `mkdir projects`<br>`mkdir -p dir1/dir2/dir3` | `📁 parent → mkdir child → 📁 parent/child` |
+| `rm` | Remove files or directories | `rm file.txt`<br>`rm -rf folder/` | `📄 file → rm → [DELETED] ⚠️ PERMANENT` |
+| `rmdir` | Remove empty directory | `rmdir empty_folder` | `📁 [empty] → rmdir → [REMOVED]` |
+| `cp` | Copy files or directories | `cp source.txt dest.txt`<br>`cp -r dir1/ dir2/` | `📄 A → cp → 📄 A' (copy)` |
+| `mv` | Move or rename files | `mv old.txt new.txt`<br>`mv file.txt /tmp/` | `📄 A [location1] → mv → 📄 A [location2]` |
+| `cat` | Concatenate and display files | `cat file.txt`<br>`cat file1 file2 > merged` | `📄 → cat → [Display Content on Screen]` |
+| `less` | View file contents (paginated) | `less /var/log/syslog` | `📄 [Large File] → less → [Page by Page]` |
+| `more` | View file contents (forward only) | `more file.txt` | `📄 → more → [Scroll Forward Only] →` |
+| `head` | Display first lines of file | `head -n 20 file.txt` | `📄 [Top 10 lines] ← head ← [Full File]` |
+| `tail` | Display last lines of file | `tail -f /var/log/syslog`<br>`tail -n 50 error.log` | `📄 [Last 10 lines] ← tail ← [Full File]` |
+| `find` | Search for files in directory hierarchy | `find /home -name "*.txt"`<br>`find . -type f -mtime -7` | `🔍 Search Tree: / → dir1 → dir2 → [MATCH!]` |
+| `locate` | Find files by name (uses database) | `locate nginx.conf`<br>`updatedb` (update database) | `[Database] → locate keyword → [Fast Results]` |
+| `which` | Show full path of commands | `which python`<br>`which ls` | `Command → which → [/usr/bin/command]` |
+| `ln` | Create links between files | `ln -s /path/to/file link`<br>`ln file hardlink` | `📄 Original ⟷ 🔗 Symlink → Points to Original` |
+| `tree` | Display directory structure | `tree -L 2`<br>`tree -a` | `📁 root`<br>`├── 📁 dir1`<br>`└── 📄 file` |
+
+### 📋 File Permissions Visual
 
 ```
-drwxr-xr--  1 user group 4096 file
+-rwxr-xr--
+│││││││││└─ Other: read
+││││││││└── Other: write (-)
+│││││││└─── Other: execute (-)
+││││││└──── Group: read
+│││││└───── Group: write (-)
+││││└────── Group: execute
+│││└─────── Owner: read
+││└──────── Owner: write
+│└───────── Owner: execute
+└────────── File type (- = file, d = directory)
 ```
 
-### Meaning of Symbols
+### 🎯 Cheat Sheet: File Operations
 
-* `d` = directory
-* `r` = read
-* `w` = write
-* `x` = execute
+```bash
+# Bulk operations
+touch file{1..10}.txt          # Create 10 files
+rm *.log                        # Delete all .log files
+cp *.jpg /backup/               # Copy all JPG files
 
-### Changing Permissions
-
-* `chmod 755 file`
-* `chmod u+x script.sh`
-
-### Changing Owner
-
-* `chown user file`
-* `chown user:group file`
-
----
-
-## 🟦 5. Users & Groups
-
-### User Commands
-
-* `whoami`
-* `id`
-* `sudo su` – switch to root
-* `useradd username`
-* `passwd username`
-
-### Group Commands
-
-* `groupadd devops`
-* `usermod -aG devops user`
-
----
-
-## 🟦 6. File Search Commands
-
-### Find
-
-* `find / -name file.txt`
-* `find . -type f -size +20M`
-
-### Grep
-
-* `grep "error" file`
-* `grep -R "503" /var/log/`
-
----
-
-## 🟦 7. System Monitoring
-
-### Processes
-
-* `ps aux`
-* `top`
-* `htop`
-* `kill PID`
-* `kill -9 PID`
-
-### Resource Usage
-
-* `free -m`
-* `df -h`
-* `du -sh *`
-
----
-
-## 🟦 8. Networking Commands
-
-* `ip a` – Show IP address
-* `ping google.com` – Connectivity check
-* `curl http://url` – Hit URL
-* `ss -tulnp` – Check open ports
-* `hostname -I` – Show IP
-* `scp file user@server:/path` – Copy via SSH
-
----
-
-## 🟦 9. Services (systemd)
-
-### Manage Services
-
-* `systemctl start nginx`
-* `systemctl stop nginx`
-* `systemctl restart nginx`
-* `systemctl enable nginx`
-* `systemctl status nginx`
-
----
-
-## 🟦 10. Logs & Troubleshooting
-
-### Important Log Files
-
-| Path                | Description         |
-| ------------------- | ------------------- |
-| `/var/log/syslog`   | System logs         |
-| `/var/log/auth.log` | Authentication logs |
-| `/var/log/nginx/`   | Nginx logs          |
-| `/var/log/messages` | General system logs |
-
-### Log Commands
-
-* `tail -f /var/log/syslog`
-* `grep "error" /var/log/syslog`
-
----
-
-## 🟦 11. Package Management (Ubuntu)
-
-* `sudo apt update`
-* `sudo apt upgrade`
-* `sudo apt install nginx`
-* `sudo apt remove nginx`
-
----
-
-## 🟦 12. Shell Scripting Basics
-
-### Shebang
-
-```
-#!/bin/bash
-```
-
-### Variables
-
-```
-name="DevOps"
-echo $name
-```
-
-### Conditions
-
-```
-if [ $x -gt 10 ]; then
-  echo "Greater"
-fi
-```
-
-### Loops
-
-```
-for i in 1 2 3; do
- echo $i
-done
-```
-
-### Functions
-
-```
-hello() {
- echo "Hello"
-}
-hello
+# Useful combinations
+find . -name "*.tmp" -delete    # Find and delete temp files
+tail -f app.log | grep ERROR    # Monitor log for errors
+cat file.txt | wc -l            # Count lines in file
 ```
 
 ---
 
-## 🟦 13. Cron Jobs (Scheduling)
+## 3. User & Permission Management
 
-### Edit cron
+Control access, users, and security settings.
 
-```
-crontab -e
-```
+| Command | Description | Example Usage | Visual/Diagram Explanation |
+|---------|-------------|---------------|----------------------------|
+| `chmod` | Change file permissions | `chmod 755 script.sh`<br>`chmod +x file` | `rw- → chmod 777 → rwx (Full Access)` |
+| `chown` | Change file owner | `chown user:group file.txt`<br>`chown -R www-data /var/www` | `👤 OldOwner → chown → 👤 NewOwner` |
+| `chgrp` | Change group ownership | `chgrp developers project/` | `👥 Group1 → chgrp → 👥 Group2` |
+| `useradd` | Create new user | `useradd -m -s /bin/bash john`<br>`useradd -G sudo alice` | `[System] → useradd → 👤 New User Created` |
+| `userdel` | Delete user account | `userdel john`<br>`userdel -r alice` (remove home) | `👤 User → userdel → [REMOVED]` |
+| `usermod` | Modify user account | `usermod -aG docker john`<br>`usermod -L alice` (lock) | `👤 User [Settings] → usermod → [Modified]` |
+| `passwd` | Change user password | `passwd`<br>`passwd john` | `🔒 Old Pass → passwd → 🔒 New Pass` |
+| `su` | Switch user | `su - root`<br>`su john` | `👤 Current → su → 👤 Target User` |
+| `sudo` | Execute command as superuser | `sudo apt update`<br>`sudo -i` | `👤 User → sudo → [ROOT PRIVILEGES] ⚡` |
+| `groups` | Display user's groups | `groups`<br>`groups alice` | `👤 User ∈ {sudo, www-data, developers}` |
+| `id` | Print user/group IDs | `id`<br>`id -u john` | `UID=1000 GID=1000 groups=1000,27,999` |
+| `whoami` | Print effective user name | `whoami` | `Current Session → [john]` |
+| `who` | Show logged in users | `who`<br>`who -b` (last boot) | `Terminal1: alice | Terminal2: bob` |
+| `w` | Show who is logged in and activity | `w` | `USER  TTY  LOGIN@  IDLE  WHAT` |
+| `last` | Show last logged in users | `last`<br>`last -n 10` | `Timeline: alice → bob → root [Login History]` |
 
-### Run script every minute
-
-```
-* * * * * /home/user/script.sh
-```
-
----
-
-## 🟦 14. Disk, Storage & File Systems
-
-### Mounting
-
-* `mount /dev/sdb1 /mnt`
-
-### Checking file system
-
-* `fsck /dev/sda1`
-
----
-
-## 🟦 15. SSH & Remote Access
-
-### Connect to server
+### 🔢 Permission Numbers Explained
 
 ```
-ssh user@ip
+Permission Values:
+r (read)    = 4
+w (write)   = 2
+x (execute) = 1
+
+Common Combinations:
+7 = rwx (4+2+1) Full access
+6 = rw- (4+2)   Read + Write
+5 = r-x (4+1)   Read + Execute
+4 = r-- (4)     Read only
+0 = ---         No access
+
+Example: chmod 755 file
+├─ 7 (rwx) → Owner has full control
+├─ 5 (r-x) → Group can read and execute
+└─ 5 (r-x) → Others can read and execute
 ```
 
-### Copy file
+### ⚠️ Security Best Practices
+- Never run `chmod 777` on production files
+- Use `sudo` instead of logging in as root
+- Regular users should NOT be in sudoers file unless necessary
+- Always use strong passwords (`passwd`)
+- Lock unused accounts: `usermod -L username`
 
-```
-scp file user@server:/path
-```
+### 🎯 Cheat Sheet: Permissions
 
----
+```bash
+# Quick permission changes
+chmod +x script.sh              # Make executable
+chmod 644 *.txt                 # Standard file permissions
+chmod 755 *.sh                  # Standard script permissions
+chmod -R 750 /opt/app           # Recursive directory permissions
 
-## 🟦 16. Archive & Compression
-
-* `tar -cvf archive.tar file`
-* `tar -xvf archive.tar`
-* `zip file.zip file`
-* `unzip file.zip`
-
----
-
-## 🟦 17. Environment Variables
-
-### Temporary
-
-```
-export NAME=DEVOPS
-```
-
-### Permanent
-
-Add to `~/.bashrc` or `/etc/environment`.
-
----
-
-## 🟦 18. Firewall Management (UFW)
-
-### Check Status
-
-```
-sudo ufw status
-```
-
-### Allow Port
-
-```
-sudo ufw allow 22
-sudo ufw allow 80
+# Ownership changes
+chown www-data:www-data -R /var/www
+chown $(whoami) file.txt        # Take ownership
 ```
 
 ---
 
-## 🟦 19. Linux for DevOps – Most Used Commands
+## 4. System Monitoring & Processes
 
-| Category    | Top Commands           |
-| ----------- | ---------------------- |
-| Logs        | tail, grep, journalctl |
-| Networking  | ip, ss, curl, ping     |
-| Storage     | df, du, mount          |
-| Processes   | ps, top, systemctl     |
-| Scripting   | bash, sh, chmod +x     |
-| Monitoring  | free, uptime, vmstat   |
-| Permissions | chmod, chown           |
+Monitor system health, manage processes, and optimize performance.
+
+| Command | Description | Example Usage | Visual/Diagram Explanation |
+|---------|-------------|---------------|----------------------------|
+| `top` | Display dynamic real-time system processes | `top`<br>`top -u john` | `[CPU 45%] [RAM 2.3GB] [Processes List ↻]` |
+| `htop` | Interactive process viewer (enhanced top) | `htop` | `Visual: ██████ CPU | ████ Memory [Interactive]` |
+| `ps` | Report process status snapshot | `ps aux`<br>`ps -ef | grep nginx` | `PID  USER  %CPU  %MEM  COMMAND` |
+| `pgrep` | Find process ID by name | `pgrep nginx`<br>`pgrep -u john` | `[Process Name] → pgrep → [PID: 1234]` |
+| `pkill` | Kill processes by name | `pkill firefox`<br>`pkill -9 -u alice` | `[Process Name] → pkill → [TERMINATED]` |
+| `kill` | Terminate process by PID | `kill 1234`<br>`kill -9 5678` | `PID 1234 → kill -9 → [FORCE KILLED]` |
+| `killall` | Kill all processes by name | `killall chrome` | `[All chrome] → killall → [ALL KILLED]` |
+| `jobs` | List background jobs | `jobs`<br>`jobs -l` | `[1]+ Running  script.sh &` |
+| `bg` | Resume suspended job in background | `bg %1` | `[Suspended] → bg → [Running in Background]` |
+| `fg` | Bring job to foreground | `fg %1` | `[Background] → fg → [Foreground Active]` |
+| `nohup` | Run command immune to hangups | `nohup script.sh &` | `Terminal Closes → [Process Continues] 🛡️` |
+| `nice` | Run process with modified priority | `nice -n 10 script.sh` | `Priority: -20 (high) ← 0 → 19 (low)` |
+| `renice` | Alter priority of running process | `renice -n 5 -p 1234` | `PID 1234 [Priority 0] → renice → [Priority 5]` |
+| `free` | Display memory usage | `free -h`<br>`free -m` | `RAM: [████░░░░] 4GB / 8GB Used` |
+| `uptime` | Show system uptime and load | `uptime` | `⏱️ up 45 days, load: 0.5, 0.8, 1.2` |
+| `vmstat` | Virtual memory statistics | `vmstat 1`<br>`vmstat -s` | `procs | memory | swap | io | system | cpu` |
+| `iostat` | CPU and I/O statistics | `iostat -x 2` | `Device: sda | tps | kB_read/s | kB_wrtn/s` |
+| `lsof` | List open files | `lsof -i :80`<br>`lsof -u john` | `[Port 80] → lsof → nginx (PID 1234)` |
+| `systemctl` | Control systemd services | `systemctl start nginx`<br>`systemctl status ssh` | `Service → [Stopped] → start → [Running] ✓` |
+| `service` | Run System V init script | `service apache2 restart` | `[Service] → restart → [Restarted]` |
+
+### 📊 Process States Visual
+
+```
+Process Lifecycle:
+[NEW] → [READY] → [RUNNING] → [TERMINATED]
+           ↓          ↑
+        [WAITING] ────┘
+
+States:
+R - Running or runnable
+S - Sleeping (waiting for event)
+D - Uninterruptible sleep (I/O)
+Z - Zombie (terminated, waiting cleanup)
+T - Stopped (suspended)
+```
+
+### 🔧 Signal Types
+
+```
+Kill Signals:
+SIGTERM (15) - Graceful termination (default)
+SIGKILL (9)  - Force kill (cannot be caught)
+SIGHUP (1)   - Hang up (restart service)
+SIGSTOP (19) - Pause process
+
+Usage:
+kill -15 PID  → Graceful shutdown
+kill -9 PID   → Force kill (use sparingly)
+```
+
+### 🎯 Cheat Sheet: Process Management
+
+```bash
+# Find and kill process
+ps aux | grep nginx
+kill $(pgrep nginx)
+
+# Run in background
+./long_script.sh &
+nohup ./script.sh > output.log 2>&1 &
+
+# Monitor specific process
+top -p $(pgrep apache2)
+watch -n 1 'ps aux | grep python'
+
+# System resource check
+free -h && df -h && uptime
+```
 
 ---
 
-## 🟦 20. Real DevOps Scenarios
+## 5. Networking Commands
 
-### 🚀 Scenario 1: Server Down
+Network configuration, troubleshooting, and connectivity tools.
 
-* `systemctl status service`
-* `journalctl -u service`
-* `df -h`
-* `top`
+| Command | Description | Example Usage | Visual/Diagram Explanation |
+|---------|-------------|---------------|----------------------------|
+| `ping` | Test network connectivity | `ping google.com`<br>`ping -c 4 8.8.8.8` | `You → [packets] → → → Target → [reply] →` |
+| `ifconfig` | Configure network interface (deprecated) | `ifconfig eth0`<br>`ifconfig eth0 down` | `[NIC: eth0] IP: 192.168.1.10 MAC: aa:bb:cc` |
+| `ip` | Show/manipulate routing, devices | `ip addr show`<br>`ip route`<br>`ip link set eth0 up` | `Interface → [Status, IP, Routes, Config]` |
+| `netstat` | Network statistics | `netstat -tuln`<br>`netstat -anp` | `Proto Local:Port Foreign:Port State PID` |
+| `ss` | Socket statistics (faster netstat) | `ss -tuln`<br>`ss -s` | `[Listening Ports] [Established Connections]` |
+| `curl` | Transfer data from/to server | `curl https://api.com`<br>`curl -O file.zip` | `Client → [HTTP Request] → Server → [Response]` |
+| `wget` | Download files from web | `wget https://file.com/data.zip`<br>`wget -c url` | `URL → wget → [📥 Downloaded File]` |
+| `traceroute` | Trace packet route to host | `traceroute google.com` | `You → Router1 → Router2 → ... → Target` |
+| `nslookup` | Query DNS servers | `nslookup google.com` | `Domain → [DNS Query] → IP: 142.250.X.X` |
+| `dig` | DNS lookup utility | `dig google.com`<br>`dig +short example.com` | `Domain → DNS → [A Records, MX, NS, etc.]` |
+| `host` | DNS lookup | `host google.com` | `google.com → [172.217.X.X (A record)]` |
+| `hostname` | Show or set system hostname | `hostname`<br>`hostname -I` | `System Name: myserver.local` |
+| `arp` | Manipulate ARP cache | `arp -a` | `IP: 192.168.1.1 ⟷ MAC: aa:bb:cc:dd:ee:ff` |
+| `route` | Show/manipulate IP routing table | `route -n` | `Destination → Gateway → Interface` |
+| `nc` (netcat) | Network utility for reading/writing | `nc -l 8080`<br>`nc example.com 80` | `[Port Listener] ⟷ [Client Connection]` |
+| `scp` | Secure copy between hosts | `scp file.txt user@host:/path/`<br>`scp -r dir/ user@host:` | `Local 📄 → [SSH] → Remote 📄` |
+| `rsync` | Remote file synchronization | `rsync -avz /src/ user@host:/dest/` | `Source → [Sync Δ] → Destination (incremental)` |
+| `ssh` | Secure shell remote login | `ssh user@hostname`<br>`ssh -i key.pem user@ip` | `Client → [Encrypted Tunnel] → Remote Server` |
+| `telnet` | Connect to remote host (insecure) | `telnet example.com 80` | `Client → [Unencrypted] → Server ⚠️` |
+| `ftp` | File transfer protocol client | `ftp ftp.server.com` | `Local ⟷ [FTP] ⟷ Remote Server` |
 
-### 🚀 Scenario 2: Deployment Failed
+### 🌐 OSI Model Reference
 
-* `tail -f logs`
-* `grep "error" logs`
-* `ps aux`
+```
+Layer 7: Application  → HTTP, FTP, SSH, DNS
+Layer 4: Transport    → TCP, UDP (ports)
+Layer 3: Network      → IP, ICMP, routing
+Layer 2: Data Link    → MAC addresses, switches
+Layer 1: Physical     → Cables, signals
 
-### 🚀 Scenario 3: Network Issue
+Troubleshooting Flow:
+Physical (cables) → IP config → Routing → DNS → Application
+```
 
-* `ip a`
-* `ping`
-* `curl`
+### 📡 Common Ports
+
+```
+20/21  - FTP
+22     - SSH
+23     - Telnet
+25     - SMTP (Email)
+53     - DNS
+80     - HTTP
+443    - HTTPS
+3306   - MySQL
+5432   - PostgreSQL
+6379   - Redis
+27017  - MongoDB
+```
+
+### 🎯 Cheat Sheet: Networking
+
+```bash
+# Quick connectivity check
+ping -c 3 8.8.8.8                    # Test internet
+ip addr show                         # Show all IPs
+ss -tuln | grep :80                  # Check if port 80 is listening
+
+# Download files
+wget -c https://example.com/file.zip # Resume download
+curl -o output.html https://site.com # Save with custom name
+
+# Remote operations
+ssh user@server 'ls -la /var/log'    # Remote command
+scp -r /local/dir user@host:/remote  # Copy directory
+rsync -avz --progress src/ dest/     # Sync with progress
+
+# DNS troubleshooting
+dig +short example.com               # Quick IP lookup
+nslookup example.com 8.8.8.8         # Use specific DNS server
+```
 
 ---
 
-## 🟦 21. Linux Command Mini-Cheat Sheet
+## 6. Disk, Storage & File Systems
 
-* `ls` – list files
-* `cd` – change directory
-* `rm` – remove
-* `chmod` – change permissions
-* `chown` – change owner
-* `ps` – list processes
-* `top` – system monitor
-* `tail -f` – live logs
-* `systemctl` – manage services
-* `grep` – search text
-* `ssh` – connect remote
+Manage disks, partitions, and storage devices.
+
+| Command | Description | Example Usage | Visual/Diagram Explanation |
+|---------|-------------|---------------|----------------------------|
+| `df` | Report file system disk space | `df -h`<br>`df -i` (inodes) | `💾 /dev/sda1 [████░] 75% Used (20GB/100GB)` |
+| `du` | Estimate file space usage | `du -sh /var/log`<br>`du -h --max-depth=1` | `📁 Directory → [Size: 2.5GB]` |
+| `fdisk` | Partition table manipulator | `fdisk -l`<br>`fdisk /dev/sdb` | `💿 Disk → [Part1: 50GB] [Part2: 100GB]` |
+| `parted` | Partition editor | `parted /dev/sda print` | `[MBR/GPT] → Partitions → [Type, Size, FS]` |
+| `mkfs` | Build Linux file system | `mkfs.ext4 /dev/sdb1`<br>`mkfs.xfs /dev/sdc1` | `[Raw Partition] → mkfs → [Formatted: ext4]` |
+| `mount` | Mount file system | `mount /dev/sdb1 /mnt`<br>`mount -t nfs server:/share /mnt` | `💿 Device → mount → 📁 /mnt [Accessible]` |
+| `umount` | Unmount file system | `umount /mnt`<br>`umount -l /mnt` (lazy) | `📁 /mnt [Mounted] → umount → [Unmounted]` |
+| `lsblk` | List block devices | `lsblk`<br>`lsblk -f` (filesystems) | `sda [Disk] ├─sda1 [Part] └─sda2 [Part]` |
+| `blkid` | Locate/print block device attributes | `blkid`<br>`blkid /dev/sda1` | `/dev/sda1: UUID="..." TYPE="ext4"` |
+| `dd` | Convert and copy files | `dd if=/dev/sda of=/backup.img bs=4M`<br>`dd if=/dev/zero of=file bs=1M count=100` | `Input → [Raw Copy] → Output (Dangerous! ⚠️)` |
+| `fsck` | File system consistency check | `fsck /dev/sda1`<br>`fsck -y /dev/sdb1` | `💿 FS → [Check & Repair] → [Fixed Errors]` |
+| `tune2fs` | Adjust ext2/ext3/ext4 parameters | `tune2fs -l /dev/sda1` | `[FS Parameters] → Reserved Blocks, Labels` |
+| `resize2fs` | Resize ext2/ext3/ext4 file systems | `resize2fs /dev/sda1` | `[FS: 50GB] → resize → [FS: 100GB]` |
+| `mkswap` | Set up Linux swap area | `mkswap /dev/sdb2` | `[Partition] → mkswap → [Swap Space]` |
+| `swapon` | Enable swap space | `swapon /dev/sdb2`<br>`swapon -a` | `💾 Swap → [Inactive] → swapon → [Active]` |
+| `swapoff` | Disable swap space | `swapoff /dev/sdb2` | `💾 Swap → [Active] → swapoff → [Inactive]` |
+| `ncdu` | NCurses disk usage analyzer | `ncdu /home` | `Interactive: [📁] Navigate & Analyze Usage` |
+
+### 💾 File System Hierarchy
+
+```
+/ (root)
+├── /bin       → Essential binaries (ls, cat, cp)
+├── /boot      → Boot loader files (kernel)
+├── /dev       → Device files (sda, tty)
+├── /etc       → Configuration files
+├── /home      → User home directories
+├── /lib       → Shared libraries
+├── /mnt       → Temporary mount points
+├── /opt       → Optional software
+├── /proc      → Process information (virtual)
+├── /root      → Root user home
+├── /sbin      → System binaries (fsck, reboot)
+├── /tmp       → Temporary files
+├── /usr       → User programs and data
+└── /var       → Variable data (logs, cache)
+```
+
+### 📦 Partition Types
+
+```
+Primary Partition:  Max 4 per disk (MBR)
+Extended Partition: Container for logical partitions
+Logical Partition:  Inside extended partition
+
+GPT (GUID Partition Table):
+- Supports 128+ partitions
+- Disks > 2TB
+- Modern standard
+```
+
+### 🎯 Cheat Sheet: Storage
+
+```bash
+# Disk space analysis
+df -h | grep -v tmpfs              # Real filesystems only
+du -sh /* | sort -h                # Top-level directories by size
+ncdu /var                          # Interactive disk usage
+
+# Mounting operations
+mount /dev/sdb1 /mnt               # Mount partition
+mount -o remount,rw /              # Remount as read-write
+cat /etc/fstab                     # Auto-mount configuration
+
+# Create swap file
+dd if=/dev/zero of=/swapfile bs=1G count=4
+mkswap /swapfile
+swapon /swapfile
+
+# Check filesystem
+umount /dev/sda1                   # Must unmount first
+fsck -y /dev/sda1                  # Auto-fix errors
+```
+
+### ⚠️ Critical Warnings
+- **NEVER** run `dd` without triple-checking parameters
+- **ALWAYS** unmount before running `fsck`
+- Backup data before `fdisk` operations
+- `mkfs` **destroys all data** on partition
 
 ---
 
-## 🟦 22. Summary
+## 7. Package Management
 
-This document contains **complete Linux notes for DevOps**, covering:
-✔ Basics
-✔ Intermediate
-✔ Advanced
-✔ Scripting
-✔ Logs
-✔ Services
-✔ Networking
-✔ Commands
-✔ Architecture
-✔ Real DevOps use cases
+Install, update, and manage software packages across different Linux distributions.
 
-You can use these notes in your **GitHub DevOps learning repository** to impress recruiters.
+| Command | Description | Example Usage | Visual/Diagram Explanation |
+|---------|-------------|---------------|----------------------------|
+| **Debian/Ubuntu (APT)** | | | |
+| `apt update` | Update package index | `apt update` | `[Local Index] ← sync ← [Remote Repos]` |
+| `apt upgrade` | Upgrade installed packages | `apt upgrade`<br>`apt full-upgrade` | `📦 v1.0 → upgrade → 📦 v2.0` |
+| `apt install` | Install packages | `apt install nginx`<br>`apt install -y docker.io` | `[Repository] → download → [Installed] ✓` |
+| `apt remove` | Remove packages | `apt remove apache2`<br>`apt purge nginx` | `📦 Package → remove → [Uninstalled]` |
+| `apt search` | Search packages | `apt search python` | `[Query: python] → [Results: python3, pip...]` |
+| `apt show` | Show package details | `apt show nginx` | `Package: nginx | Version: 1.18 | Deps: ...` |
+| `apt autoremove` | Remove unused dependencies | `apt autoremove` | `[Orphaned Packages] → [Cleaned]` |
+| **RedHat/CentOS (YUM/DNF)** | | | |
+| `yum update` | Update all packages | `yum update` | `[System Packages] → update → [Latest]` |
+| `yum install` | Install package | `yum install httpd` | `[Repo] → install → [httpd installed]` |
+| `yum remove` | Remove package | `yum remove nginx` | `📦 nginx → [Removed]` |
+| `yum search` | Search for package | `yum search python` | `[Query] → [Matching Packages]` |
+| `dnf` | Next-gen YUM (Fedora/RHEL 8+) | `dnf install vim` | `[Faster YUM] with better dependency solving` |
+| **Arch Linux (Pacman)** | | | |
+| `pacman -Syu` | Sync and update system | `pacman -Syu` | `[Repos] → sync → [Update All]` |
+| `pacman -S` | Install package | `pacman -S firefox` | `[AUR/Repo] → install → [firefox]` |
+| `pacman -R` | Remove package | `pacman -R package` | `📦 → [Removed]` |
+| `pacman -Ss` | Search packages | `pacman -Ss python` | `[Query] → [Results from repos]` |
+| **Universal Tools** | | | |
+| `dpkg` | Debian package manager | `dpkg -i package.deb`<br>`dpkg -l` (list) | `📦 .deb → dpkg → [Installed]` |
+| `rpm` | RedHat package manager | `rpm -ivh package.rpm`<br>`rpm -qa` (list) | `📦 .rpm → rpm → [Installed]` |
+| `snap` | Universal package manager | `snap install vscode`<br>`snap refresh` | `[Snap Store] → [Sandboxed App]` |
+| `flatpak` | Universal app distribution | `flatpak install firefox` | `[Flathub] → [Containerized App]` |
+| `pip` | Python package installer | `pip install requests`<br>`pip3 install flask` | `[PyPI] → download → [Python Package]` |
+| `npm` | Node.js package manager | `npm install express`<br>`npm update` | `[npmjs.com] → [node_modules]` |
+
+### 📦 Package Management Flow
+
+```
+APT (Debian/Ubuntu):
+[/etc/apt/sources.list] → apt update → [Local Cache]
+                                            ↓
+User: apt install pkg → [Check Cache] → Download → Install → Configure
+
+YUM/DNF (RedHat/CentOS):
+[/etc/yum.repos.d/] → yum update → [Metadata Cache]
+                                        ↓
+User: yum install pkg → Resolve Deps → Download → Install
+```
+
+###
